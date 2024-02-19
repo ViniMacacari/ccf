@@ -1,0 +1,12 @@
+# Arquivos de dependências npm
+node_modules/
+
+# Arquivos gerados automaticamente
+npm-debug.log
+yarn-error.log
+
+# Arquivos de build
+/build/
+
+# Arquivos de ambiente
+.env
