@@ -1,0 +1,138 @@
+/* Fontes */
+
+.inter-light {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0;
+}
+
+.inter-medium {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0;
+}
+
+.inter-bold {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0;
+}
+
+.inter-super-bold {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0;
+}
+
+/* Fontes */
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.centerflex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+}
+
+.midLogin {
+    /* background-color: aqua; */
+    display: flex;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* border-radius: 30px; */
+}
+
+.headerLogin {
+    width: 100%;
+    padding: 15px 0px;
+    border-radius: 30px 30px 0px 0px;
+    background-color: wheat;
+}
+
+.bodyLogin {
+    background-color: rgb(255, 255, 255);
+    padding: 30px 70px;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.footerLogin {
+    background-color: wheat;
+    width: 100%;
+    padding: 15px 0px;
+    padding-top: 0;
+    border-radius: 0px 0px 30px 30px;
+}
+
+h1 {
+    margin: 0
+}
+
+#title-login {
+    color: rgb(0, 0, 0);
+}
+
+/* Inputs */
+
+input {
+    outline: none;
+    background-color: transparent;
+}
+
+.input-page {
+    font-size: 15.5px;
+    border: none;
+    border-bottom: 2px solid black;
+}
+
+/* Botoes */
+
+.btn {
+    background-color: rgb(255, 255, 255);
+    width: 130px;
+    padding: 10px;
+    border: 1px solid black;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: .5s;
+}
+
+.btn:hover {
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+
+.p-button {
+    cursor: pointer;
+}
