@@ -1,10 +1,21 @@
 'use strict'
 
 const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
 const mysql = require('mysql')
-require('dotenv').config();
+require('dotenv').config()
+
+//app.use(bodyParser.json())
 
 const app = express()
+
+// Middleware para analisar corpos de solicitação JSON
+app.use(bodyParser.json());
+
+// Middleware para habilitar o CORS
+app.use(cors());
+
 const port = 80
 
 const connection = mysql.createConnection({
@@ -28,6 +39,21 @@ app.listen(port, () => {
 app.get('/consulta', (req, res) => {
     connection.query('SELECT * FROM ccf.usuarios', (err, rows) => {
         if (err) {
+            console.error('Erro ao executar a consulta:', err)
+            res.status(500).send('Erro ao recuperar os dados')
+            return
+        }
+        res.json(rows)
+    })
+})
+
+app.post('/logar', (req, res) => {
+    const emailUsuario = req.body.email_usuario
+    const senhaUsuario = req.body.senha_usuario
+    
+    connection.query(`CALL ccf.fazer_login('${emailUsuario}', '${senhaUsuario}')`, (err, rows) => {
+        if (err) {
+            console.log(`CALL ccf.fazer_login('${emailUsuario}', '${senhaUsuario}')`)
             console.error('Erro ao executar a consulta:', err)
             res.status(500).send('Erro ao recuperar os dados')
             return

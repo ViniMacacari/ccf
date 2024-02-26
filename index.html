@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="/js/jquery-3.7.1.js"></script>
+    <script src="/js/login.js"></script>
 </head>
 
 <body>
@@ -17,9 +19,9 @@
             <div class="headerLogin centerflex">
                 <h1 class="inter-super-bold" id="title-login">Inscrição CCF</h1>
             </div>
-            <div class="bodyLogin">
-                <h2 class="inter-bold">Entre com sua conta!</h2>
-                <label class="inter-medium" for="i-nome-completo">Nome Completo</label>
+            <div class="bodyLogin centerflex">
+                <h2 id="h2-title" class="inter-bold">Entre com sua conta!</h2>
+                <label class="inter-medium" for="i-nome-completo" id="l-nome-completo">Nome Completo</label>
                 <input id="i-nome-completo" class="input-page inter-medium" type="text">
                 <label class="inter-medium" for="i-mail">Usuário</label>
                 <input id="i-email" class="input-page inter-medium" type="text">
@@ -28,7 +30,7 @@
             </div>
             <div class="footerLogin centerflex inter-medium">
                 <p class="p-button" id="cadastrar-entrar">Se cadastre aqui!</p>
-                <button class="btn" id="entrar-logar">Entrar</button>
+                <button class="btn" id="entrar-criar">Entrar</button>
             </div>
         </div>
     </container>
