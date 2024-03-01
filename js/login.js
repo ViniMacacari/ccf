@@ -28,7 +28,31 @@ function cadastrarOuLogar() {
 
     $('#entrar-criar').on('click', function () {
         if (cadEnt == 0) { // Criar conta
+            const nomeCompleto = $('#i-nome-completo').val()
+            const emailUsuario = $('#i-email').val()
+            const senhaUsuario = $('#i-senha').val()
 
+            fetch('http://localhost/cadastrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nome_completo: nomeCompleto,
+                    email_usuario: emailUsuario,
+                    senha_usuario: senhaUsuario
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Resposta do servidor:', response)
+                        return response.json()
+                    }
+                    throw new Error('Erro ao criar conta')
+                })
+                .catch(error => {
+                    console.error('Erro:', error)
+                })
         } else { // Logar
             const emailUsuario = $('#i-email').val()
             const senhaUsuario = $('#i-senha').val()

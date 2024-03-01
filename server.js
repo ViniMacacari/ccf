@@ -62,6 +62,24 @@ app.post('/logar', (req, res) => {
     })
 })
 
+app.post('/cadastrar', (req, res) => {
+    const nomeCompleto = req.body.nome_completo
+    const emailUsuario = req.body.email_usuario
+    const senhaUsuario = req.body.senha_usuario
+    console.log('entrou aqui1')
+    connection.query(`CALL ccf.criar_usuario('${nomeCompleto}', '${emailUsuario}', '${senhaUsuario}')`, (err, rows) => {
+        console.log('entrou aqui')
+        if (err) {
+            console.log(`CALL ccf.criar_usuario('${nomeCompleto}', '${emailUsuario}', '${senhaUsuario}')`)
+            console.error('Erro ao executar a consulta:', err)
+            res.status(500).send('Erro ao recuperar os dados')
+            return
+        }
+        console.log(rows)
+        res.json(rows)
+    })
+})
+
 process.on('SIGINT', () => {
     connection.end()
     process.exit()
