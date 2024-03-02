@@ -46,6 +46,7 @@ function cadastrarOuLogar() {
                 .then(response => {
                     if (response.ok) {
                         console.log('Resposta do servidor:', response)
+                        logar()
                         return response.json()
                     }
                     throw new Error('Erro ao criar conta')
@@ -54,31 +55,44 @@ function cadastrarOuLogar() {
                     console.error('Erro:', error)
                 })
         } else { // Logar
-            const emailUsuario = $('#i-email').val()
-            const senhaUsuario = $('#i-senha').val()
-
-            fetch('http://localhost/logar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email_usuario: emailUsuario,
-                    senha_usuario: senhaUsuario
-                })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json()
-                    }
-                    throw new Error('Erro ao fazer login')
-                })
-                .then(data => {
-                    console.log('Resposta do servidor:', data)
-                })
-                .catch(error => {
-                    console.error('Erro:', error)
-                })
+            logar()
         }
     })
+}
+
+function logar() {
+    const emailUsuario = $('#i-email').val()
+    const senhaUsuario = $('#i-senha').val()
+
+    fetch('http://localhost:80/logar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            email_usuario: emailUsuario,
+            senha_usuario: senhaUsuario,
+        }),
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            }
+            throw new Error('Erro ao fazer login')
+        })
+        .then(data => {
+            console.log('Resposta do servidor:', data)
+            if (data.auth) {
+                // Armazena o token em localStorage ou sessionStorage
+                localStorage.setItem('token', data.token)
+
+                //window.location.href = '/home.html'
+            } else {
+                console.error('Falha na autenticação')
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error)
+        })
 }
