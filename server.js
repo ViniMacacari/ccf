@@ -4,9 +4,13 @@ const express = require('express')
 const session = require('express-session')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const axios = require('axios')
 const mysql = require('mysql')
+const { PerformanceObserver, performance } = require('perf_hooks')
+const util = require('util')
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
+var path = require('path')
 require('dotenv').config()
 
 const app = express()
@@ -15,11 +19,11 @@ const app = express()
 app.use(session({ secret: process.env.SEGREDOSESSAO }))
 app.use(bodyParser.json())
 app.use(cookieParser())
-app.use(cors({
-    origin: 'http://127.0.0.1:5500',
-    credentials: true
-}
-))
+app.use(cors({ credentials: true }))
+app.use(express.static(path.join(__dirname))) // Servidor único
+app.engine('html', require('ejs').renderFile)
+app.set('view engine', 'html')
+app.set('views', path.join(__dirname))
 
 const port = 80
 
@@ -37,7 +41,7 @@ connection.connect((err) => {
     console.log('Conectado ao MySQL!')
 })
 
-app.listen(port, () => {
+app.listen(port, 'localhost', () => {
     console.log(`Servidor rodando em http://localhost:${port}`)
 })
 
@@ -67,13 +71,17 @@ app.post('/logar', async (req, res) => {
             req.body.email_usuario = req.body.username
             const token = jwt.sign({ usuario: req.session.usuario }, process.env.SEGREDOTOKEN, { expiresIn: 3600 })
             console.log('Token gerado:', token)
-            res.cookie("token", token, {
-                httpOnly: true,
-                maxAge: 3600000,
-                sameSite: 'None'
-            })
             try {
-                //res.redirect(`/consulta.html`)
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    maxAge: 3600000
+                })
+                console.log('Cookie criado com sucesso')
+            } catch (err) {
+                console.error('Erro ao criar cookie:', err)
+            }
+            try {
+                //res.redirect(`/home.html`)
                 return res.json({ auth: true, token })
             } catch (renderError) {
                 console.error('Erro ao redirecionar:', renderError)

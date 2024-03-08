@@ -84,10 +84,9 @@ function logar() {
         .then(data => {
             console.log('Resposta do servidor:', data)
             if (data.auth) {
-                // Armazena o token em localStorage ou sessionStorage
+                // Armazena o token em localStorage
                 localStorage.setItem('token', data.token)
-
-                //window.location.href = '/home.html'
+                window.location.href = '/home.html'
             } else {
                 console.error('Falha na autenticação')
             }
