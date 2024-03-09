@@ -45,17 +45,6 @@ app.listen(port, 'localhost', () => {
     console.log(`Servidor rodando em http://localhost:${port}`)
 })
 
-app.get('/consulta', async (req, res) => {
-    connection.query('SELECT * FROM ccf.usuarios', (err, rows) => {
-        if (err) {
-            console.error('Erro ao executar a consulta:', err)
-            res.status(500).send('Erro ao recuperar os dados')
-            return
-        }
-        res.json(rows)
-    })
-})
-
 app.post('/logar', async (req, res) => {
     const emailUsuario = req.body.email_usuario
     const senhaUsuario = req.body.senha_usuario
@@ -68,8 +57,9 @@ app.post('/logar', async (req, res) => {
             return
         } else {
             console.log('Usuário autenticado com sucesso')
-            req.body.email_usuario = req.body.username
-            const token = jwt.sign({ usuario: req.session.usuario }, process.env.SEGREDOTOKEN, { expiresIn: 3600 })
+            //req.body.email_usuario = req.body.username
+            req.session.email = emailUsuario
+            const token = jwt.sign({ usuario: emailUsuario }, process.env.SEGREDOTOKEN, { expiresIn: 3600 })
             console.log('Token gerado:', token)
             try {
                 res.cookie("token", token, {
@@ -111,7 +101,34 @@ app.post('/cadastrar', async (req, res) => {
     })
 })
 
-process.on('SIGINT', () => {
+app.get('/consulta', verifyJWT, async (req, res) => { // Verifica o login
+    console.log("executou a consulta")
+    connection.query('SELECT * FROM ccf.usuarios', (err, rows) => {
+        if (err) {
+            console.error('Erro ao executar a consulta:', err)
+            res.status(500).send('Erro ao recuperar os dados')
+            return
+        }
+        res.json(rows)
+    })
+})
+
+function verifyJWT(req, res, next) { // Verifica o token
+    const token = req.cookies.token
+    try {
+        const user = jwt.verify(token, process.env.SEGREDOTOKEN)
+        console.log(user)
+        console.log(req.session.email)
+        req.email = user
+        next()
+        console.log("logado")
+    } catch {
+        res.clearCookie('token')
+        return res.json({ auth: false }) //res.status(500).send('Erro ao recuperar os dados')
+    }
+}
+
+process.on('SIGINT', () => { // Fecha a conexão com o MySQL para evitar sobrecargas
     connection.end()
     process.exit()
 })
